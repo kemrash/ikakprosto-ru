@@ -2,12 +2,12 @@ import { useFetch } from "~/api/Fetch";
 import type { Posts } from "~/types/types";
 
 export const usePostsStore = defineStore("postsStore", () => {
-  const posts = ref<Posts | undefined>();
+  const dataPosts = ref<Posts | undefined>();
 
   return {
     getPosts: async () => {
-      posts.value = await useFetch();
+      dataPosts.value = await useFetch();
     },
-    posts,
+    dataPosts,
   };
 });

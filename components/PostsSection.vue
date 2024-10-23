@@ -5,16 +5,15 @@ const postsStore = usePostsStore()
 
 await useAsyncData('posts', async () => Promise.all([postsStore.getPosts()]))
 
-const postsComputed = computed(() => postsStore.posts?.posts.slice(0, MAX_POSTS))
+const postsComputed = computed(() => postsStore.dataPosts?.posts.slice(0, MAX_POSTS))
 </script>
 
 <template>
   <section class="posts">
     <div class="container">
-      <h1 class="visually-hidden">Посты</h1>
-      <ul v-if="postsStore.posts" class="list-reset posts__list">
+      <ul v-if="postsStore.dataPosts" class="list-reset posts__list">
         <li v-for="post in postsComputed" :key="post.id" class="posts__item">
-          <PostBlock :post="post" />
+          <PostBlock :post="post" :is-posts-page="true" />
         </li>
       </ul>
     </div>

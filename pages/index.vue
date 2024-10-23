@@ -2,6 +2,7 @@
 
 <template>
   <main class="main">
+    <h1 class="visually-hidden">Posts</h1>
     <PostsSection />
   </main>
 </template>

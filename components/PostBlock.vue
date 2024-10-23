@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import type { Post } from '~/types/types';
 
-defineProps<{ post: Post }>()
+defineProps<{
+  post: Post,
+  isPostsPage?: boolean
+}>()
 
 const today = new Date().toLocaleDateString()
 </script>
@@ -15,9 +18,9 @@ const today = new Date().toLocaleDateString()
       {{ post.body }}
     </p>
     <div class="post__inner">
-      <button class="btn-reset post__btn">Like {{ post.reactions.likes }}</button>
-      <button class="btn-reset post__btn">Trash {{ post.reactions.dislikes }} </button>
-      <NuxtLink class="post__link">
+      <button class="btn-reset post__btn" aria-label="Like">Like {{ post.reactions.likes }}</button>
+      <button class="btn-reset post__btn" aria-label="Dislike">Trash {{ post.reactions.dislikes }} </button>
+      <NuxtLink v-if="isPostsPage" :to="String(post.id)" class="post__link">
         Open comments
       </NuxtLink>
       <data :value="today" class="post__data">Today</data>
