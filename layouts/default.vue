@@ -2,6 +2,7 @@
 </script>
 
 <template>
+  <HeaderSection />
   <slot />
 </template>
 

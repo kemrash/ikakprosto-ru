@@ -1,0 +1,35 @@
+<script setup lang="ts">
+import type { Post } from '~/types/types';
+
+defineProps<{ post: Post }>()
+
+const today = new Date().toLocaleDateString()
+</script>
+
+<template>
+  <article class="post">
+    <h2 class="post__title">
+      {{ post.title }}
+    </h2>
+    <p class="post__desc">
+      {{ post.body }}
+    </p>
+    <div class="post__inner">
+      <button class="btn-reset post__btn">Like {{ post.reactions.likes }}</button>
+      <button class="btn-reset post__btn">Trash {{ post.reactions.dislikes }} </button>
+      <NuxtLink class="post__link">
+        Open comments
+      </NuxtLink>
+      <data :value="today" class="post__data">Today</data>
+      <aside v-if="post.tags.length > 0" class="post__tags">
+        <ul class="list-reset post__tags-list">
+          <li v-for="tag in post.tags" :key="tag" class="post__tags-item">
+            {{ tag }}
+          </li>
+        </ul>
+      </aside>
+    </div>
+  </article>
+</template>
+
+<style scoped></style>
