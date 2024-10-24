@@ -20,4 +20,14 @@ const postsComputed = computed(() => postsStore.dataPosts?.posts.slice(0, MAX_PO
   </section>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.posts {
+  padding: 27px 0;
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    row-gap: 22px;
+  }
+}
+</style>
