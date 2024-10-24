@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import likeIconId from '../assets/img/sprite/like.svg';
-import dislikesIconId from '../assets/img/sprite/dislikes.svg';
+import likeActiveIconId from '../assets/img/sprite/likeActive.svg';
+import dislikeIconId from '../assets/img/sprite/dislike.svg';
+import dislikeActiveIconId from '../assets/img/sprite/dislikeActive.svg';
 import type { Post } from '~/types/types';
 
 defineProps<{
@@ -9,6 +11,9 @@ defineProps<{
 }>()
 
 const today = new Date().toLocaleDateString()
+
+const isLikeActive = false
+const isDislikeActive = false
 </script>
 
 <template>
@@ -21,18 +26,20 @@ const today = new Date().toLocaleDateString()
     </p>
     <div class="post__inner">
       <div class="post__btn-box">
-        <button class="btn-reset post__btn post__btn-like">
+        <button class="btn-reset post__btn post__btn-like" :class="{ 'post__btn-like--active': isLikeActive }">
           <svg class="post__icon">
-            <use :xlink:href="`#${likeIconId}`" />
+            <use v-if="isLikeActive" :xlink:href="`#${likeActiveIconId}`" />
+            <use v-else :xlink:href="`#${likeIconId}`" />
           </svg>
           Like
           <span class="post__btn-number">
             {{ post.reactions.likes }}
           </span>
         </button>
-        <button class="btn-reset post__btn post__btn-dislike">
+        <button class="btn-reset post__btn post__btn-dislike" :class="{ 'post__btn-dislike--active': isDislikeActive }">
           <svg class="post__icon">
-            <use :xlink:href="`#${dislikesIconId}`" />
+            <use v-if="isDislikeActive" :xlink:href="`#${dislikeActiveIconId}`" />
+            <use v-else :xlink:href="`#${dislikeIconId}`" />
           </svg>
           Trash
           <span class="post__btn-number">
@@ -90,16 +97,32 @@ const today = new Date().toLocaleDateString()
   &__btn-like {
     padding-left: 12px;
     border-radius: 14px 0 0 14px;
+
+    &--active {
+      background-color: $red;
+    }
+  }
+
+  &__btn-like--active,
+  &__btn-like--active &__btn-number,
+  &__btn-dislike--active,
+  &__btn-dislike--active &__btn-number {
+    color: $white-95;
   }
 
   &__btn-dislike {
     padding-right: 10px;
     border-radius: 0 14px 14px 0;
+
+    &--active {
+      background-color: $black-text;
+    }
   }
 
   &__icon {
     width: 13px;
     height: 11px;
+    transition: fill .3s ease-in-out;
   }
 
   &__btn-number {
