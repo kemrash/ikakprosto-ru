@@ -1,10 +1,16 @@
 <script setup lang="ts">
+import { pageNotFound } from '~/utils/Page';
+
 const route = useRoute()
 const id = computed(() => `${route.params.id}`)
 
 const postStore = usePostStore()
 
 await useAsyncData('post', async () => Promise.all([postStore.getDataPost(id.value), postStore.getDataComments(id.value)]))
+
+if (!postStore.dataPost) {
+  pageNotFound()
+}
 </script>
 
 <template>
