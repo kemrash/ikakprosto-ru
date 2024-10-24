@@ -10,7 +10,7 @@ const today = new Date().toLocaleDateString()
 </script>
 
 <template>
-  <article class="post">
+  <div class="post">
     <h2 class="post__title">
       {{ post.title }}
     </h2>
@@ -32,7 +32,7 @@ const today = new Date().toLocaleDateString()
         </ul>
       </aside>
     </div>
-  </article>
+  </div>
 </template>
 
 <style scoped></style>

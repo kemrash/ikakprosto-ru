@@ -6,4 +6,9 @@
   </NuxtLink>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.logo {
+  display: inline-block;
+  font-size: 0;
+}
+</style>

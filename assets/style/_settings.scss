@@ -1,0 +1,48 @@
+html {
+  box-sizing: border-box;
+}
+
+*,
+::before,
+::after {
+  box-sizing: inherit;
+}
+
+img {
+  max-width: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+*:focus-visible {
+  outline: none;
+}
+
+body {
+  min-width: 320px;
+  font-family: $font-family;
+}
+
+.container {
+  margin: 0 auto;
+  padding: 0 50px;
+  max-width: 776px
+}
+
+.list-reset {
+	@include list-reset;
+}
+
+.btn-reset {
+  @include btn-reset;
+}
+
+.visually-hidden {
+  @include visually-hidden;
+}
+
+.text-reset {
+  margin: 0;
+}

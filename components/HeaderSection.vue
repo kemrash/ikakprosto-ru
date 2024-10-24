@@ -8,4 +8,13 @@
   </header>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.header {
+  padding: 14px 0;
+
+  &__container {
+    display: flex;
+    justify-content: center;
+  }
+}
+</style>
