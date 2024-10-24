@@ -14,4 +14,8 @@ defineProps<{
   </section>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.about-post {
+  padding: 27px 0 10px;
+}
+</style>
