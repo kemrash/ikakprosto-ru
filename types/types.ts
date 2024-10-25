@@ -41,7 +41,9 @@ export type User = {
       dislikes: boolean;
     };
   };
-  deleteComment: {
-    [key: number]: boolean;
+  deleteComments: {
+    [key: number]: {
+      [key: number]: boolean;
+    };
   };
 };

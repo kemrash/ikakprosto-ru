@@ -1,11 +1,22 @@
 <script setup lang="ts">
 import type { DataComments } from '~/types/types';
 
+const userStore = useUserStore()
+
 const props = defineProps<{
-  dataComments: DataComments
+  dataComments: DataComments,
+  postId: string
 }>()
 
-const sumOfComments = computed(() => props.dataComments.comments.length)
+const sumOfComments = computed(() => {
+  const deleteComments = userStore.user.deleteComments[Number(props.postId)]
+
+  if (deleteComments) {
+    return props.dataComments.comments.length - Object.keys(deleteComments).length
+  } else {
+    return props.dataComments.comments.length
+  }
+})
 </script>
 
 <template>
