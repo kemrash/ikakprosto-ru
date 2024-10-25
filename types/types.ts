@@ -33,3 +33,15 @@ export type DataComments = {
   skip: number;
   limit: number;
 };
+
+export type User = {
+  post: {
+    [key: number]: {
+      likes: boolean;
+      dislikes: boolean;
+    };
+  };
+  deleteComment: {
+    [key: number]: boolean;
+  };
+};

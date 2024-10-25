@@ -1,19 +1,31 @@
 <script setup lang="ts">
-import user from "../assets/img/user.png";
+import userImg from "../assets/img/user.png";
 import type { Comment } from '~/types/types';
 
-defineProps<{
+const userStore = useUserStore()
+
+const props = defineProps<{
   comment: Comment
 }>()
 
 const today = new Date().toLocaleDateString()
 
-const isCommentDelete = false
+const isCommentDelete = computed(() => userStore.user.deleteComment[props.comment.id] ? true : false)
+
+const onDelete = (): void => {
+  userStore.user.deleteComment[props.comment.id] = true
+}
+
+const onReturn = (): void => {
+  if (userStore.user.deleteComment[props.comment.id]) {
+    delete userStore.user.deleteComment[props.comment.id]
+  }
+}
 </script>
 
 <template>
   <div class="comment">
-    <img :src="user" class="comment__img" alt="" aria-hidden="true">
+    <img :src="userImg" class="comment__img" alt="" aria-hidden="true">
     <span class="text comment__name">
       {{ comment.user.username }}
     </span>
@@ -23,11 +35,11 @@ const isCommentDelete = false
       </p>
       <div v-if="!isCommentDelete" class="comment__inner">
         <data :value="today" class="comment__data">Today</data>
-        <button class="btn-reset comment__btn">
+        <button @click="onDelete" class="btn-reset comment__btn">
           Delete
         </button>
       </div>
-      <button v-else class="btn-reset comment__btn-return">
+      <button v-else @click="onReturn" class="btn-reset comment__btn-return">
         Return
       </button>
     </div>
