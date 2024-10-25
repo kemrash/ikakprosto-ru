@@ -37,13 +37,11 @@ export type DataComments = {
 export type User = {
   post: {
     [key: number]: {
-      likes: boolean;
-      dislikes: boolean;
-    };
-  };
-  deleteComments: {
-    [key: number]: {
-      [key: number]: boolean;
+      likes?: boolean;
+      dislikes?: boolean;
+      deleteComments?: {
+        [key: number]: boolean;
+      };
     };
   };
 };

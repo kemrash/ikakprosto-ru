@@ -10,17 +10,25 @@ const props = defineProps<{
 
 const today = new Date().toLocaleDateString()
 
-const isCommentDelete = computed(() => userStore.user.deleteComments[props.comment.postId]?.[props.comment.id] ? true : false)
+const isCommentDelete = computed(() => userStore.user.post[props.comment.postId]?.deleteComments?.[props.comment.id] ? true : false)
 
 const onDelete = (): void => {
-  userStore.user.deleteComments[props.comment.postId] = {
-    ...userStore.user.deleteComments[props.comment.postId],
-    [props.comment.id]: true
+  if (!userStore.user.post[props.comment.postId]) {
+    userStore.user.post[props.comment.postId] = {
+      deleteComments: {
+        [props.comment.id]: true
+      }
+    }
+  } else {
+    userStore.user.post[props.comment.postId].deleteComments = {
+      ...userStore.user.post[props.comment.postId].deleteComments,
+      [props.comment.id]: true
+    }
   }
 }
 
 const onReturn = (): void => {
-  delete userStore.user.deleteComments[props.comment.postId]?.[props.comment.id]
+  delete userStore.user.post[props.comment.postId]?.deleteComments?.[props.comment.id]
 }
 </script>
 

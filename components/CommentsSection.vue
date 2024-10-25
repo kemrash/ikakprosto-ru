@@ -9,7 +9,7 @@ const props = defineProps<{
 }>()
 
 const sumOfComments = computed(() => {
-  const deleteComments = userStore.user.deleteComments[Number(props.postId)]
+  const deleteComments = userStore.user.post[Number(props.postId)]?.deleteComments
 
   if (deleteComments) {
     return props.dataComments.comments.length - Object.keys(deleteComments).length
