@@ -133,10 +133,17 @@ const onDislike = (): void => {
   }
 
   &__btn {
-    padding: 4px 11px;
+    padding: 3px 10px;
+    border: 1px solid transparent;
     color: $black-text;
     letter-spacing: -0.078px;
     background-color: $background-004;
+    transition: border-color .3s ease-in-out, color .3s ease-in-out, background-color .3s ease-in-out;
+
+    &:focus-visible {
+      border-color: $accent-primary;
+      outline: none;
+    }
   }
 
   &__btn,
@@ -148,7 +155,7 @@ const onDislike = (): void => {
   }
 
   &__btn-like {
-    padding-left: 12px;
+    padding-left: 11px;
     border-radius: 14px 0 0 14px;
 
     &--active {
@@ -164,7 +171,7 @@ const onDislike = (): void => {
   }
 
   &__btn-dislike {
-    padding-right: 10px;
+    padding-right: 9px;
     border-radius: 0 14px 14px 0;
 
     &--active {
@@ -180,6 +187,7 @@ const onDislike = (): void => {
 
   &__btn-number {
     color: $black-text-03;
+    transition: color .3s ease-in-out;
   }
 
   &__link {
@@ -189,10 +197,46 @@ const onDislike = (): void => {
     text-decoration-color: $accent-border;
     text-underline-offset: .2em;
     text-decoration-skip-ink: none;
+    transition: color .3s ease-in-out, text-decoration-color .3s ease-in-out;
+
+    &:focus-visible {
+      color: $burnt-sienna;
+      text-decoration-color: $burnt-sienna;
+    }
   }
 
   &__data {
     color: $border;
+  }
+}
+
+@media (any-hover: hover) {
+  .post {
+    &__btn {
+      &:hover:not(:focus-visible):not(:active) {
+        & .post__icon {
+          fill: $white-95;
+        }
+
+        &,
+        & .post__btn-number {
+          color: $white-95;
+        }
+      }
+    }
+
+    &__btn-like:hover:not(:focus-visible):not(:active) {
+      background-color: $burnt-sienna;
+    }
+
+    &__btn-dislike:hover:not(:focus-visible):not(:active) {
+      background-color: $black-text-07;
+    }
+
+    &__link:hover:not(:focus-visible):not(:active) {
+      color: $burnt-sienna;
+      text-decoration-color: $burnt-sienna;
+    }
   }
 }
 </style>

@@ -112,6 +112,7 @@ const onReturn = (): void => {
     text-decoration: underline;
     text-underline-offset: .2em;
     text-decoration-skip-ink: none;
+    transition: color .3s ease-in-out, text-decoration-color .3s ease-in-out;
   }
 
   &__btn {
@@ -128,6 +129,24 @@ const onReturn = (): void => {
     line-height: 100%;
     color: $accent-primary;
     text-decoration-color: $accent-border;
+  }
+
+  &__btn:focus-visible,
+  &__btn-return:focus-visible {
+    color: $black-text;
+    text-decoration-color: $black-text;
+    outline: none;
+  }
+}
+
+@media (any-hover: hover) {
+  .comment {
+
+    &__btn:hover:not(:focus-visible):not(:active),
+    &__btn-return:hover:not(:focus-visible):not(:active) {
+      color: $black-text;
+      text-decoration-color: $black-text;
+    }
   }
 }
 </style>
