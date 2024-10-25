@@ -3,17 +3,53 @@ import likeIconId from '../assets/img/sprite/like.svg';
 import likeActiveIconId from '../assets/img/sprite/likeActive.svg';
 import dislikeIconId from '../assets/img/sprite/dislike.svg';
 import dislikeActiveIconId from '../assets/img/sprite/dislikeActive.svg';
-import type { Post } from '~/types/types';
+import type { Post, Reactions } from '~/types/types';
 
-defineProps<{
+const userStore = useUserStore()
+
+const props = defineProps<{
   post: Post,
   isPostsPage?: boolean
 }>()
 
 const today = new Date().toLocaleDateString()
 
-const isLikeActive = false
-const isDislikeActive = false
+const isLikeActive = computed(() => userStore.user.post[props.post.id]?.likes ? true : false)
+const isDislikeActive = computed(() => userStore.user.post[props.post.id]?.dislikes ? true : false)
+
+const changeSumReactions = (reaction: Reactions): number => {
+  if (userStore.user.post[props.post.id]?.[reaction]) {
+    return props.post.reactions[reaction] + 1
+  } else {
+    return props.post.reactions[reaction]
+  }
+}
+
+const postReactionsLikes = computed(() => changeSumReactions('likes'))
+const postReactionsDislikes = computed(() => changeSumReactions('dislikes'))
+
+const changeReaction = (incrementReaction: Reactions, decrementReaction: Reactions): void => {
+  if (!userStore.user.post[props.post.id]?.[incrementReaction]) {
+    userStore.user.post[props.post.id] = {
+      ...userStore.user.post[props.post.id],
+      [incrementReaction]: true
+    }
+  } else {
+    userStore.user.post[props.post.id][incrementReaction] = !userStore.user.post[props.post.id][incrementReaction]
+  }
+
+  if (userStore.user.post[props.post.id]?.[decrementReaction]) {
+    userStore.user.post[props.post.id][decrementReaction] = false
+  }
+}
+
+const onLike = (): void => {
+  changeReaction('likes', 'dislikes')
+}
+
+const onDislike = (): void => {
+  changeReaction('dislikes', 'likes')
+}
 </script>
 
 <template>
@@ -26,24 +62,26 @@ const isDislikeActive = false
     </p>
     <div class="post__inner">
       <div class="post__btn-box">
-        <button class="btn-reset post__btn post__btn-like" :class="{ 'post__btn-like--active': isLikeActive }">
+        <button @click="onLike" class="btn-reset post__btn post__btn-like"
+          :class="{ 'post__btn-like--active': isLikeActive }">
           <svg class="post__icon">
             <use v-if="isLikeActive" :xlink:href="`#${likeActiveIconId}`" />
             <use v-else :xlink:href="`#${likeIconId}`" />
           </svg>
           Like
           <span class="post__btn-number">
-            {{ post.reactions.likes }}
+            {{ postReactionsLikes }}
           </span>
         </button>
-        <button class="btn-reset post__btn post__btn-dislike" :class="{ 'post__btn-dislike--active': isDislikeActive }">
+        <button @click="onDislike" class="btn-reset post__btn post__btn-dislike"
+          :class="{ 'post__btn-dislike--active': isDislikeActive }">
           <svg class="post__icon">
             <use v-if="isDislikeActive" :xlink:href="`#${dislikeActiveIconId}`" />
             <use v-else :xlink:href="`#${dislikeIconId}`" />
           </svg>
           Trash
           <span class="post__btn-number">
-            {{ post.reactions.dislikes }}
+            {{ postReactionsDislikes }}
           </span>
         </button>
       </div>

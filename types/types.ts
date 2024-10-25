@@ -45,3 +45,5 @@ export type User = {
     };
   };
 };
+
+export type Reactions = "likes" | "dislikes";
