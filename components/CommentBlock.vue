@@ -2,17 +2,24 @@
 import userImg from "../assets/img/user.png";
 import type { Comment } from '~/types/types';
 
+// Используем store пользователя для доступа к данным и методам, связанным с пользователем
 const userStore = useUserStore()
 
+// Определяем свойства компонента, в данном случае передаем объект комментария типа Comment
 const props = defineProps<{
   comment: Comment
 }>()
 
+// Определяем текущую дату в формате локальной строки
 const today = new Date().toLocaleDateString()
 
+// Проверяем, был ли комментарий удален (если комментарий отмечен как удалённый в хранилище пользователя, возвращаем true)
 const isCommentDelete = computed(() => userStore.user.post[props.comment.postId]?.deleteComments?.[props.comment.id] ? true : false)
 
+// Функция для отметки комментария как удалённого
 const onDelete = (): void => {
+  // Если поста с указанным идентификатором комментария ещё нет в userStore,
+  // создаём его и добавляем отметку об удалении комментария
   if (!userStore.user.post[props.comment.postId]) {
     userStore.user.post[props.comment.postId] = {
       deleteComments: {
@@ -20,6 +27,7 @@ const onDelete = (): void => {
       }
     }
   } else {
+    // Если пост существует, добавляем или обновляем отметку об удалении конкретного комментария
     userStore.user.post[props.comment.postId].deleteComments = {
       ...userStore.user.post[props.comment.postId].deleteComments,
       [props.comment.id]: true
@@ -27,9 +35,12 @@ const onDelete = (): void => {
   }
 }
 
+// Функция для отмены удаления комментария (восстановление комментария)
 const onReturn = (): void => {
+  // Удаляем отметку об удалении комментария из объекта deleteComments
   delete userStore.user.post[props.comment.postId]?.deleteComments?.[props.comment.id]
 }
+
 </script>
 
 <template>

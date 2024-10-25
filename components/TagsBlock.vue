@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import tailIconId from '../assets/img/sprite/tail.svg';
 
+// Определяем свойства компонента, в данном случае передаем массив строк, представляющий теги
 defineProps<{
   tags: string[]
 }>()

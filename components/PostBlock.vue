@@ -5,18 +5,25 @@ import dislikeIconId from '../assets/img/sprite/dislike.svg';
 import dislikeActiveIconId from '../assets/img/sprite/dislikeActive.svg';
 import type { Post, Reactions } from '~/types/types';
 
+// Подключаем хранилище пользователя для работы с данными и методами, связанными с пользователем
 const userStore = useUserStore()
 
+// Определяем свойства компонента, включая объект поста и флаг, указывающий, отображается ли компонент на странице постов
 const props = defineProps<{
   post: Post,
   isPostsPage?: boolean
 }>()
 
+// Определяем текущую дату в формате локальной строки
 const today = new Date().toLocaleDateString()
 
+// Проверяем, активирован ли лайк для поста (если лайк отмечен в хранилище пользователя, возвращаем true)
 const isLikeActive = computed(() => userStore.user.post[props.post.id]?.likes ? true : false)
+
+// Проверяем, активирован ли дизлайк для поста (если дизлайк отмечен в хранилище пользователя, возвращаем true)
 const isDislikeActive = computed(() => userStore.user.post[props.post.id]?.dislikes ? true : false)
 
+// Функция для вычисления количества реакций с учетом текущего статуса пользователя (если реакция активна, добавляем 1)
 const changeSumReactions = (reaction: Reactions): number => {
   if (userStore.user.post[props.post.id]?.[reaction]) {
     return props.post.reactions[reaction] + 1
@@ -25,10 +32,15 @@ const changeSumReactions = (reaction: Reactions): number => {
   }
 }
 
+// Вычисляем общее количество лайков для поста, учитывая реакцию пользователя
 const postReactionsLikes = computed(() => changeSumReactions('likes'))
+
+// Вычисляем общее количество дизлайков для поста, учитывая реакцию пользователя
 const postReactionsDislikes = computed(() => changeSumReactions('dislikes'))
 
+// Функция для переключения реакции пользователя (лайк или дизлайк) на пост
 const changeReaction = (incrementReaction: Reactions, decrementReaction: Reactions): void => {
+  // Если реакция пользователя отсутствует, добавляем её, иначе убираем
   if (!userStore.user.post[props.post.id]?.[incrementReaction]) {
     userStore.user.post[props.post.id] = {
       ...userStore.user.post[props.post.id],
@@ -38,15 +50,18 @@ const changeReaction = (incrementReaction: Reactions, decrementReaction: Reactio
     userStore.user.post[props.post.id][incrementReaction] = !userStore.user.post[props.post.id][incrementReaction]
   }
 
+  // Если противоположная реакция была активной, деактивируем её
   if (userStore.user.post[props.post.id]?.[decrementReaction]) {
     userStore.user.post[props.post.id][decrementReaction] = false
   }
 }
 
+// Функция для добавления или удаления лайка на пост
 const onLike = (): void => {
   changeReaction('likes', 'dislikes')
 }
 
+// Функция для добавления или удаления дизлайка на пост
 const onDislike = (): void => {
   changeReaction('dislikes', 'likes')
 }

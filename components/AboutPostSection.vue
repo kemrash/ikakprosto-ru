@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Post } from '~/types/types';
 
+// Определяем свойства компонента, в данном случае передаем объект поста типа Post
 defineProps<{
   post: Post
 }>()

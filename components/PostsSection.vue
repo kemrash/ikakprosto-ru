@@ -1,10 +1,14 @@
 <script setup lang="ts">
+// Максимальное количество постов, которое будет отображаться
 const MAX_POSTS = 5
 
+// Подключаем хранилище постов для работы с данными и методами, связанными с постами
 const postsStore = usePostsStore()
 
+// Загружаем данные постов асинхронно и сохраняем их в хранилище
 await useAsyncData('posts', async () => Promise.all([postsStore.getPosts()]))
 
+// Получаем вычисляемое свойство с постами, ограниченное максимумом (MAX_POSTS) для отображения
 const postsComputed = computed(() => postsStore.dataPosts?.posts.slice(0, MAX_POSTS))
 </script>
 

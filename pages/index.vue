@@ -1,4 +1,9 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+// Определяем метаданные страницы, устанавливая заголовок страницы как 'Posts'
+definePageMeta({
+  title: 'Posts',
+})
+</script>
 
 <template>
   <main class="main">
